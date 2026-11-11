@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101820">
+  <meta name="description" content="VoiceMW customer workspace guide and API documentation.">
+  <title>VoiceMW — Customer Guide & API Documentation</title>
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        line-height: 1.6;
+        color: #222;
+        background: #fff;
+        margin: 0;
+        padding: 20px;
+    }
+
+    main {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    nav, aside {
+        margin-bottom: 20px;
+    }
+
+    a {
+        color: #0759a5;
+    }
+
+    h1, h2, h3 {
+        line-height: 1.3;
+    }
+
+    pre, code {
+        font-family: Consolas, monospace;
+        background: #f2f2f2;
+    }
+
+    pre {
+        padding: 12px;
+        overflow-x: auto;
+        border: 1px solid #ddd;
+    }
+
+    button {
+        padding: 6px 10px;
+        cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+    }
+
+    th, td {
+        padding: 8px;
+        border: 1px solid #ccc;
+        text-align: left;
+    }
+
+    th {
+        background: #eee;
+    }
+
+    input {
+        padding: 8px;
+        max-width: 100%;
+    }
+
+    @media (max-width: 700px) {
+        body {
+            padding: 12px;
+        }
+
+        table {
+            display: block;
+            overflow-x: auto;
+        }
+    }
+</style>
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        background: #ffffff;
+        color: #252525;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    a {
+        color: #2563a6;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    h1, h2, h3 {
+        color: #202020;
+        line-height: 1.35;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 21px;
+        margin-top: 32px;
+        padding-bottom: 7px;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    h3 {
+        font-size: 17px;
+    }
+
+    p {
+        margin: 12px 0;
+    }
+
+    pre {
+        background: #f6f7f8;
+        border: 1px solid #e5e7eb;
+        border-radius: 5px;
+        padding: 14px;
+        overflow-x: auto;
+        line-height: 1.5;
+    }
+
+    code {
+        background: #f1f2f3;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-family: Consolas, monospace;
+        font-size: 0.92em;
+    }
+
+    pre code {
+        background: transparent;
+        padding: 0;
+    }
+
+    button, input {
+        font: inherit;
+        padding: 8px 10px;
+        border: 1px solid #d5d5d5;
+        border-radius: 4px;
+        background: #fff;
+        color: #222;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #f3f4f6;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 18px 0;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #e5e5e5;
+        text-align: left;
+    }
+
+    th {
+        background: #f7f7f7;
+    }
+
+    hr {
+        border: 0;
+        border-top: 1px solid #eeeeee;
+    }
+
+    .sidebar {
+        background: #fafafa;
+        border-right: 1px solid #eeeeee;
+    }
+
+    .sidebar a {
+        display: block;
+        padding: 6px 12px;
+        color: #444;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+        background: #eeeeee;
+        text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+        body {
+            font-size: 14px;
+        }
+
+        pre {
+            padding: 10px;
+        }
+
+        table {
+            display: block;
+            overflow-x: auto;
+        }
+    }
+</style>
+
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#overview">
+      <span class="brand-mark">K</span>
+      <span>VoiceMW<small>Customer & API documentation</small></span>
+    </a>
+    <div class="top-links">
+      <span class="status">API reference</span>
+      <a href="https://voicemw.duckdns.org/health" target="_blank" rel="noreferrer">API health ↗</a>
+    </div>
+    <button class="menu-button" id="menuButton" aria-label="Toggle navigation">☰</button>
+  </header>
+
+  <aside id="sidebar">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input id="navSearch" type="search" placeholder="Search documentation..." aria-label="Search documentation">
+    </div>
+    <nav id="navigation">
+      <div class="nav-label">Getting started</div>
+      <a class="nav-link active" href="#overview">Introduction</a>
+      <a class="nav-link" href="#quickstart">Quick start</a>
+      <a class="nav-link" href="#registration">Create an account</a>
+      <a class="nav-link" href="#activation">Account activation</a>
+      <div class="nav-label">Web app guide</div>
+      <a class="nav-link" href="#app-overview">Using the workspace</a>
+      <a class="nav-link" href="#app-login">Login and passwords</a>
+      <a class="nav-link" href="#app-tts">Text to speech</a>
+      <a class="nav-link" href="#app-stt">Speech to text</a>
+      <a class="nav-link" href="#app-workflow">Transcribe and speak</a>
+      <a class="nav-link" href="#app-usage">Usage and subscriptions</a>
+      <a class="nav-link" href="#app-help">Troubleshooting</a>
+      <div class="nav-label">API reference</div>
+      <a class="nav-link" href="#authentication">Authentication</a>
+      <a class="nav-link" href="#voices">List voices</a>
+      <a class="nav-link" href="#synthesis">Text to speech</a>
+      <a class="nav-link" href="#stt">Speech to text</a>
+      <a class="nav-link" href="#account">Account details</a>
+      <a class="nav-link" href="#usage">Usage and quota</a>
+      <div class="nav-label">Guides</div>
+      <a class="nav-link" href="#formats">Audio formats</a>
+      <a class="nav-link" href="#errors">Errors</a>
+      <a class="nav-link" href="#security">Security</a>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="content">
+      <section id="overview">
+        <div class="eyebrow">VoiceMW · Text-to-speech API</div>
+        <h1>Give your application<br><span>a voice.</span></h1>
+        <p class="lead">Integrate VoiceMW text-to-speech into your product using a simple HTTP API. Submit text, choose a voice and audio format, and receive generated speech as an audio file.</p>
+        <div class="hero-meta">
+          <span class="pill green">REST API</span>
+          <span class="pill">JSON requests</span>
+          <span class="pill">Audio responses</span>
+          <span class="pill">HTTPS</span>
+        </div>
+        <h3>API base URL</h3>
+        <div class="codebox">
+          <div class="codehead"><span>BASE URL</span><button class="copy">Copy</button></div>
+          <pre>https://voicemw.duckdns.org</pre>
+        </div>
+        <div class="callout">
+          <strong>Before you begin</strong>
+          <p>Create an account and wait for activation. Your API key is issued during registration, but speech generation remains unavailable until your account has an active subscription.</p>
+        </div>
+      </section>
+
+
+      <section id="app-overview">
+        <div class="eyebrow">VoiceMW · Customer workspace</div>
+        <h2>Using the VoiceMW workspace</h2>
+        <p>The VoiceMW web application lets you generate speech from text, transcribe audio into text, and turn an edited transcript into generated speech. You can also monitor your subscription usage from the same workspace.</p>
+        <p><strong>Open the application:</strong> <a href="https://appvoicemw.duckdns.org" target="_blank" rel="noreferrer">appvoicemw.duckdns.org</a></p>
+        <p>Your available features depend on your account status and subscription. If a feature is unavailable or your allowance has run out, contact the VoiceMW administrator.</p>
+      </section>
+
+      <section id="app-login">
+        <h2>Login and password management</h2>
+        <ol>
+          <li>Contact the VoiceMW administrator to request a web workspace account and receive your login credentials.</li>
+          <li>Open the VoiceMW application using the link above.</li>
+          <li>Enter the email address and password supplied to you, then sign in.</li>
+          <li>If prompted to change your password, enter your current password and choose a new password. Confirm the new password to complete the change.</li>
+        </ol>
+        <p>Web workspace accounts are created by the VoiceMW administrator. There is no public self-registration for the web application. Contact the administrator if you need access.</p>
+        <p>If you cannot sign in or have forgotten your password, contact the VoiceMW administrator for assistance. Do not share your password or API key with anyone.</p>
+      </section>
+
+      <section id="app-tts">
+        <h2>Text to speech (TTS)</h2>
+        <p>Use Text to Speech to convert written text into an audio file.</p>
+        <ol>
+          <li>Sign in and open the Text to Speech workspace.</li>
+          <li>Enter or paste the text you want to convert. The text limit is 2,000 characters per request.</li>
+          <li>Select a voice from the voices currently available in the application.</li>
+          <li>Adjust the speech speed if needed. The supported speed range is 0.5 to 2.0.</li>
+          <li>Choose an audio format: WAV, MP3, OGG, FLAC or AAC.</li>
+          <li>Submit the request and wait for speech generation to finish.</li>
+          <li>Use the audio player to listen to the result, or download the generated file.</li>
+        </ol>
+        <p>Text-to-speech usage is deducted from your subscription's character allowance. Check the usage panel before submitting large amounts of text.</p>
+      </section>
+
+      <section id="app-stt">
+        <h2>Speech to text (STT)</h2>
+        <p>Use Speech to Text to turn an audio recording into written text.</p>
+        <ol>
+          <li>Open the Speech to Text workspace.</li>
+          <li>Select the audio file you want to process.</li>
+          <li>Choose a language, or leave the language setting on automatic detection where available.</li>
+          <li>Select the task: transcription converts speech into text, while translation translates the spoken content.</li>
+          <li>Submit the request and wait for processing to complete.</li>
+          <li>Review the resulting transcript and use the copy control if you want to copy the text.</li>
+        </ol>
+        <p>Audio uploads must be no larger than 25 MiB and no longer than 30 minutes. Supported audio formats depend on the server's audio decoder. If an upload is rejected, try a standard audio format such as WAV or MP3.</p>
+        <p>STT usage is measured by the duration of successfully processed audio, not by the number of words in the transcript. Your subscription must include an STT allowance to use this feature.</p>
+      </section>
+
+      <section id="app-workflow">
+        <h2>Transcribe, edit and generate speech</h2>
+        <p>The combined workflow lets you start with an audio recording, convert it into text, make corrections, and generate new speech from the edited version.</p>
+        <ol>
+          <li>Open the combined transcription and speech workflow.</li>
+          <li>Choose the audio file, language and transcription task.</li>
+          <li>Submit the audio for transcription or translation.</li>
+          <li>When the transcript appears, review it carefully and correct names, punctuation, spelling or any words that were recognised incorrectly.</li>
+          <li>Choose the voice, speech speed and output audio format.</li>
+          <li>Generate speech using the edited transcript.</li>
+          <li>Listen to the generated audio and download it when you are satisfied with the result.</li>
+        </ol>
+        <p>The transcript editor is editable, so the generated speech can use your corrected text rather than the original transcription. This workflow uses both STT and TTS allowances: audio processing consumes STT allowance, and generated text consumes TTS characters.</p>
+      </section>
+
+      <section id="app-usage">
+        <h2>Usage, quotas and subscriptions</h2>
+        <p>Your workspace displays your account status and the remaining allowances available to you.</p>
+        <table class="inline-table">
+          <thead><tr><th>Allowance</th><th>How it is measured</th></tr></thead>
+          <tbody>
+            <tr><td>Text to speech</td><td>Characters submitted for speech generation.</td></tr>
+            <tr><td>Speech to text</td><td>Duration of successfully processed audio, measured by the service in milliseconds.</td></tr>
+          </tbody>
+        </table>
+        <ul>
+          <li>The remaining allowance and usage indicators help you track consumption.</li>
+          <li>Your subscription has a configured duration and expiry date.</li>
+          <li>When an allowance is exhausted or your subscription is inactive or expired, the relevant service may reject new requests.</li>
+          <li>Contact the VoiceMW administrator to request activation, a subscription extension or a change to your allowances.</li>
+        </ul>
+        <p>TTS and STT allowances are separate. Having remaining TTS characters does not automatically provide an STT allowance, and vice versa.</p>
+      </section>
+
+<section id="app-help">
+        <h2>Troubleshooting and support</h2>
+        <ul>
+          <li><strong>Cannot sign in:</strong> check your email and password, then contact your provider if the credentials do not work.</li>
+          <li><strong>Account inactive or request forbidden:</strong> ask your provider to check your account status and subscription.</li>
+          <li><strong>Quota exhausted:</strong> check the usage indicators and request an allowance extension if needed.</li>
+          <li><strong>Audio upload rejected:</strong> check the file size, duration and audio format.</li>
+          <li><strong>Speech generation or transcription fails:</strong> retry once, check your input and contact support if the problem continues.</li>
+          <li><strong>Request already processing:</strong> wait for the current operation to finish before submitting another request.</li>
+        </ul>
+        <p>For account, subscription or service issues, contact the VoiceMW administrator. When reporting a problem, include the time of the request and the error message, but never include your password or full API key.</p>
+      </section>
+
+      <section id="quickstart">
+        <h2>Quick start</h2>
+        <p>Follow these steps to make your first speech-generation request.</p>
+        <ol class="steps">
+          <li><strong>Register.</strong> Submit your name and email address to receive an account ID and API key.</li>
+          <li><strong>Wait for activation.</strong> Your account starts with <code>pending</code> status. The VoiceMW administrator must activate it and assign a subscription.</li>
+          <li><strong>Choose a voice.</strong> Call <code>GET /voices</code> to retrieve the voices currently available.</li>
+          <li><strong>Generate speech.</strong> Send an authenticated request to <code>POST /v1/tts</code> and save the returned audio.</li>
+        </ol>
+        <div class="codebox">
+          <div class="codehead"><span>cURL · GENERATE WAV AUDIO</span><button class="copy">Copy</button></div>
+          <pre>curl -X POST https://voicemw.duckdns.org/v1/tts \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "Hello! Welcome to VoiceMW text to speech.",
+    "voice": "af_heart",
+    "speed": 1.0,
+    "format": "wav"
+  }' \
+  --output speech.wav</pre>
+        </div>
+      </section>
+
+      <section id="registration">
+        <h2>Create an account</h2>
+        <div class="endpoint-block">
+          <span class="endpoint"><span class="method post">POST</span> /v1/register</span>
+          <p>Creates an API customer account. Registration does not require an API key. This API registration does not create a web workspace login; contact the VoiceMW administrator separately to request web workspace access.</p>
+        </div>
+        <h3>Request body</h3>
+        <div class="codebox">
+          <div class="codehead"><span>JSON</span><button class="copy">Copy</button></div>
+          <pre>{
+  "name": "John Banda",
+  "email": "john@example.com"
+}</pre>
+        </div>
+        <table class="inline-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Rules</th></tr></thead>
+          <tbody>
+            <tr><td><code>name</code></td><td>String</td><td>Required. 1–120 bytes after trimming.</td></tr>
+            <tr><td><code>email</code></td><td>String</td><td>Required. Maximum 254 bytes; must contain <code>@</code>.</td></tr>
+          </tbody>
+        </table>
+        <h3>Successful response</h3>
+        <p>Registration returns HTTP <code>200</code> with your account ID and newly generated API key.</p>
+        <div class="codebox">
+          <div class="codehead"><span>JSON · RESPONSE EXAMPLE</span><button class="copy">Copy</button></div>
+          <pre>{
+  "account_id": "KKR-XXXXXXXXXXXXXXX",
+  "api_key": "kk_live_YOUR_SECRET_KEY"
+}</pre>
+        </div>
+        <div class="callout warning">
+          <strong>Save your API key immediately.</strong>
+          <p>Treat it like a password. Store it securely on your backend. Do not expose it in browser JavaScript, mobile app source code, public repositories, or logs.</p>
+        </div>
+        <p>An email address can only be registered once. A duplicate registration returns HTTP <code>409 Conflict</code>.</p>
+      </section>
+
+      <section id="activation">
+        <h2>Account activation</h2>
+        <p>New accounts are created with <code>pending</code> status. Your API key is valid for account and usage lookups, but cannot generate speech until the account is activated.</p>
+        <table class="inline-table">
+          <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><code>pending</code></td><td>Registration received; awaiting activation.</td></tr>
+            <tr><td><code>active</code></td><td>Account is activated. A valid subscription and remaining quota are still required for synthesis.</td></tr>
+            <tr><td><code>suspended</code></td><td>Account access is suspended.</td></tr>
+          </tbody>
+        </table>
+        <p>Contact the VoiceMW administrator for activation or subscription questions. Activation and subscription changes are handled by the administrator.</p>
+      </section>
+
+      <section id="authentication">
+        <h2>Authentication</h2>
+        <p>Protected endpoints use Bearer token authentication. Include your API key in the HTTP <code>Authorization</code> header.</p>
+        <div class="codebox">
+          <div class="codehead"><span>HTTP HEADER</span><button class="copy">Copy</button></div>
+          <pre>Authorization: Bearer YOUR_API_KEY</pre>
+        </div>
+        <p>API keys have the prefix <code>kk_live_</code>. Requests with missing, invalid, or revoked keys are rejected with HTTP <code>401 Unauthorized</code>.</p>
+      </section>
+
+      <section id="voices">
+        <h2>List voices</h2>
+        <div class="endpoint-block">
+          <span class="endpoint"><span class="method get">GET</span> /voices</span>
+          <p>Returns the voices currently available on the service. This endpoint does not require authentication.</p>
+        </div>
+        <h3>Example response</h3>
+        <div class="codebox">
+          <div class="codehead"><span>JSON</span><button class="copy">Copy</button></div>
+          <pre>{
+  "voices": ["af_heart"]
+}</pre>
+        </div>
+        <p><strong>Currently available:</strong> <code>af_heart</code>. Always query this endpoint for the latest list before presenting voice choices in your application.</p>
+        <div class="codebox">
+          <div class="codehead"><span>cURL</span><button class="copy">Copy</button></div>
+          <pre>curl https://voicemw.duckdns.org/voices</pre>
+        </div>
+      </section>
+
+      <section id="synthesis">
+        <h2>Text to speech</h2>
+        <div class="endpoint-block">
+          <span class="endpoint"><span class="method post">POST</span> /v1/tts</span>
+          <p>Converts text into an audio file. Requires an active account, a valid API key, and sufficient subscription quota. The <code>/tts</code> route is also available as an authenticated alias.</p>
+        </div>
+        <h3>Request body</h3>
+        <table class="inline-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Rules</th></tr></thead>
+          <tbody>
+            <tr><td><code>text</code> <span class="required">REQUIRED</span></td><td>String</td><td>Must not be empty. Maximum 2,000 characters.</td></tr>
+            <tr><td><code>voice</code> <span class="optional">OPTIONAL</span></td><td>String</td><td>Defaults to <code>af_heart</code>. Must match a voice returned by <code>/voices</code>.</td></tr>
+            <tr><td><code>speed</code> <span class="optional">OPTIONAL</span></td><td>Number</td><td>Defaults to <code>1.0</code>. Allowed range: <code>0.5</code> to <code>2.0</code>.</td></tr>
+            <tr><td><code>format</code> <span class="optional">OPTIONAL</span></td><td>String</td><td>Defaults to <code>wav</code>. Supported: wav, mp3, ogg, flac, aac.</td></tr>
+          </tbody>
+        </table>
+        <h3>Example request</h3>
+        <div class="codebox">
+          <div class="codehead"><span>JSON</span><button class="copy">Copy</button></div>
+          <pre>{
+  "text": "Hello! This audio was generated using VoiceMW.",
+  "voice": "af_heart",
+  "speed": 1.0,
+  "format": "wav"
+}</pre>
+        </div>
+        <h3>JavaScript example (Node.js)</h3>
+        <p>This example uses the built-in <code>fetch</code> API available in modern Node.js versions.</p>
+        <div class="codebox">
+          <div class="codehead"><span>JAVASCRIPT</span><button class="copy">Copy</button></div>
+          <pre>const fs = require("node:fs/promises");
+
+const API_URL = "https://voicemw.duckdns.org";
+const API_KEY = process.env.VOICEMW_API_KEY;
+
+async function synthesize(text) {
+  const response = await fetch(`${API_URL}/v1/tts`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${API_KEY}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      text,
+      voice: "af_heart",
+      speed: 1.0,
+      format: "mp3"
+    })
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`VoiceMW ${response.status}: ${error}`);
+  }
+
+  const audio = Buffer.from(await response.arrayBuffer());
+  await fs.writeFile("speech.mp3", audio);
+  return audio.length;
+}
+
+synthesize("Hello from my application!")
+  .then(size => console.log(`Saved ${size} bytes`))
+  .catch(console.error);</pre>
+        </div>
+        <h3>Successful response</h3>
+        <p>A successful synthesis returns the audio file directly, not JSON. The response includes these headers:</p>
+        <table class="inline-table">
+          <thead><tr><th>Header</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>Content-Type</code></td><td>MIME type for the selected audio format.</td></tr>
+            <tr><td><code>Content-Disposition</code></td><td>Attachment filename, such as <code>voicemw-speech.wav</code>.</td></tr>
+            <tr><td><code>Content-Length</code></td><td>Audio response size in bytes.</td></tr>
+            <tr><td><code>x-synthesis-ms</code></td><td>Time spent synthesizing, in milliseconds.</td></tr>
+            <tr><td><code>x-audio-format</code></td><td>Selected output format.</td></tr>
+          </tbody>
+        </table>
+        <div class="callout warning">
+          <strong>Concurrency note</strong>
+          <p>The service currently processes one synthesis request at a time. If another synthesis is running, the API returns HTTP <code>429 Too Many Requests</code>. Your application should retry after a short delay, using a bounded retry policy.</p>
+        </div>
+      </section>
+
+      <section id="stt">
+        <h2>Speech to text</h2>
+        <div class="endpoint-block">
+          <span class="endpoint"><span class="method post">POST</span> /v1/stt</span>
+          <p>Transcribes an uploaded audio recording into text. Requires an active account, a valid API key, an active subscription, and an STT allowance greater than zero. Audio is processed by the private speech-recognition service.</p>
+        </div>
+
+        <h3>Multipart form fields</h3>
+        <table class="inline-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Rules</th></tr></thead>
+          <tbody>
+            <tr><td><code>file</code> <span class="required">REQUIRED</span></td><td>File</td><td>One supported audio file. Maximum upload size: 25 MiB. Maximum audio duration: 30 minutes.</td></tr>
+            <tr><td><code>language</code> <span class="optional">OPTIONAL</span></td><td>String</td><td>Defaults to <code>auto</code> for automatic language detection. You can provide a language code such as <code>en</code>.</td></tr>
+            <tr><td><code>task</code> <span class="optional">OPTIONAL</span></td><td>String</td><td>Defaults to <code>transcribe</code>. Allowed values: <code>transcribe</code> or <code>translate</code>.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Example request</h3>
+        <p>Use multipart form data. Give the uploaded file its actual audio filename and extension.</p>
+        <div class="codebox">
+          <div class="codehead"><span>cURL</span><button class="copy">Copy</button></div>
+          <pre>curl -X POST https://voicemw.duckdns.org/v1/stt \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -F "file=@recording.wav" \
+  -F "language=auto" \
+  -F "task=transcribe" \
+  -o transcription.json</pre>
+        </div>
+
+        <h3>Transcription and translation</h3>
+        <ul>
+          <li><code>transcribe</code> converts speech in the recording into text in the spoken language.</li>
+          <li><code>translate</code> asks the speech-recognition service to translate the spoken audio into English. This is audio translation, not a general-purpose text translation endpoint.</li>
+          <li>Set <code>language</code> to <code>auto</code> to let the service detect the spoken language, or provide a language code when known.</li>
+        </ul>
+
+        <h3>Successful response</h3>
+        <p>A successful request returns JSON in the API's <code>verbose_json</code> format. The response includes the task, detected language, audio duration, and transcription text. It may also include segment-level details.</p>
+        <div class="codebox">
+          <div class="codehead"><span>JSON · abbreviated</span><button class="copy">Copy</button></div>
+          <pre>{
+  "task": "transcribe",
+  "language": "english",
+  "duration": 8.325,
+  "text": "Hello, this is a speech recognition test."
+}</pre>
+        </div>
+
+        <p>The response also includes these headers:</p>
+        <table class="inline-table">
+          <thead><tr><th>Header</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>Content-Type</code></td><td><code>application/json</code>.</td></tr>
+            <tr><td><code>x-audio-duration-ms</code></td><td>Validated audio duration charged to the STT allowance, in milliseconds.</td></tr>
+            <tr><td><code>x-stt-processing-ms</code></td><td>Time spent processing the transcription request, in milliseconds.</td></tr>
+            <tr><td><code>x-stt-task</code></td><td>The completed task: <code>transcribe</code> or <code>translate</code>.</td></tr>
+          </tbody>
+        </table>
+
+        <div class="callout warning">
+          <strong>Concurrency and quota</strong>
+          <p>The service processes one STT request at a time, independently of TTS. A concurrent STT request receives HTTP <code>429</code>. STT quota is measured by uploaded audio duration, rounded up to the nearest millisecond, and deducted only after a successful result. Your subscription must have an STT allowance enabled by your provider.</p>
+        </div>
+      </section>
+
+      <section id="account">
+        <h2>Account details</h2>
+        <div class="endpoint-block">
+          <span class="endpoint"><span class="method get">GET</span> /v1/account</span>
+          <p>Returns account information, subscription details when available, and the number of active API keys. Requires authentication.</p>
+        </div>
+        <div class="codebox">
+          <div class="codehead"><span>cURL</span><button class="copy">Copy</button></div>
+          <pre>curl https://voicemw.duckdns.org/v1/account \
+  -H "Authorization: Bearer YOUR_API_KEY"</pre>
+        </div>
+        <p>The response contains an <code>account</code> object, a <code>subscription</code> object (which may be <code>null</code>), and <code>active_api_keys</code>. Account information includes the account ID, name, email, status, and creation timestamp.</p>
+      </section>
+
+      <section id="usage">
+        <h2>Usage and quota</h2>
+        <div class="endpoint-block">
+          <span class="endpoint"><span class="method get">GET</span> /v1/usage</span>
+          <p>Returns the account's current status and subscription usage information. Requires authentication.</p>
+        </div>
+        <div class="codebox">
+          <div class="codehead"><span>cURL</span><button class="copy">Copy</button></div>
+          <pre>curl https://voicemw.duckdns.org/v1/usage \
+  -H "Authorization: Bearer YOUR_API_KEY"</pre>
+        </div>
+        <p>When a subscription exists, usage data includes its character limit, characters used, characters remaining, STT limit, STT used, STT remaining, status, start time, and expiry time. TTS quota is consumed according to submitted characters. STT quota is measured in milliseconds of audio duration; only successful transcription or translation requests consume it.</p>
+        <p>The STT fields are <code>stt_limit_ms</code>, <code>stt_used_ms</code>, and <code>stt_remaining_ms</code>. Divide these values by 1,000 to convert milliseconds into seconds. An STT allowance of zero means STT is not enabled for that subscription.</p>
+      </section>
+
+      <section id="formats">
+        <h2>Audio formats</h2>
+        <p>Choose the output format using the <code>format</code> request field. If omitted, the API returns WAV.</p>
+        <table class="inline-table">
+          <thead><tr><th>Format</th><th>Content type</th><th>File extension</th></tr></thead>
+          <tbody>
+            <tr><td><code>wav</code></td><td><code>audio/wav</code></td><td>.wav</td></tr>
+            <tr><td><code>mp3</code></td><td><code>audio/mpeg</code></td><td>.mp3</td></tr>
+            <tr><td><code>ogg</code></td><td><code>audio/ogg</code></td><td>.ogg</td></tr>
+            <tr><td><code>flac</code></td><td><code>audio/flac</code></td><td>.flac</td></tr>
+            <tr><td><code>aac</code></td><td><code>audio/aac</code></td><td>.aac</td></tr>
+          </tbody>
+        </table>
+        <p>Format names are case-insensitive. Unsupported formats return HTTP <code>400 Bad Request</code>.</p>
+      </section>
+
+      <section id="errors">
+        <h2>Errors</h2>
+        <p>Errors are returned with an appropriate HTTP status and a message describing the problem.</p>
+        <table class="inline-table">
+          <thead><tr><th>Status</th><th>Meaning</th><th>What to do</th></tr></thead>
+          <tbody>
+            <tr><td><code>400</code></td><td>Invalid input, voice, speed, or format.</td><td>Check your request fields and allowed values.</td></tr>
+            <tr><td><code>401</code></td><td>Missing, invalid, or revoked API key.</td><td>Check your Bearer token.</td></tr>
+            <tr><td><code>403</code></td><td>Account inactive or subscription/quota restriction.</td><td>Check account status and contact your provider if needed.</td></tr>
+            <tr><td><code>409</code></td><td>Email already registered.</td><td>Use the existing account.</td></tr>
+            <tr><td><code>413</code></td><td>Text exceeds 2,000 characters, audio upload exceeds 25 MiB, or audio duration exceeds 30 minutes.</td><td>Reduce the text or upload a smaller/shorter audio file.</td></tr>
+            <tr><td><code>422</code></td><td>Uploaded audio is unsupported, invalid, or has an invalid duration; speech synthesis can also fail.</td><td>Check the audio file and request, then retry.</td></tr>
+            <tr><td><code>429</code></td><td>Another TTS synthesis or STT request is currently running.</td><td>Wait briefly and retry with a bounded retry policy.</td></tr>
+            <tr><td><code>502</code></td><td>The private STT service is unavailable or returned an invalid response.</td><td>Retry later. Contact your provider if the problem persists.</td></tr>
+            <tr><td><code>500</code></td><td>Internal server or audio conversion error.</td><td>Retry later and contact support if persistent.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="security">
+        <h2>Security best practices</h2>
+        <ul>
+          <li>Keep API keys on your server. Never embed them in public frontend code.</li>
+          <li>Use environment variables or a secrets manager to store credentials.</li>
+          <li>Use HTTPS for every API request.</li>
+          <li>Do not commit API keys to Git repositories.</li>
+          <li>Do not log authorization headers or full API keys.</li>
+          <li>Validate user input and enforce sensible request limits in your application.</li>
+        </ul>
+      </section>
+
+      <footer class="footer">
+        <p>VoiceMW Documentation · For integration support, contact your VoiceMW service provider.</p>
+        <p>API base URL: <a href="https://voicemw.duckdns.org">voicemw.duckdns.org</a></p>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    document.querySelectorAll(".copy").forEach(button => {
+      button.addEventListener("click", async () => {
+        const text = button.closest(".codebox").querySelector("pre").innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+          const old = button.textContent;
+          button.textContent = "Copied!";
+          setTimeout(() => button.textContent = old, 1400);
+        } catch {
+          button.textContent = "Copy failed";
+        }
+      });
+    });
+
+    const search = document.getElementById("navSearch");
+    const links = [...document.querySelectorAll(".nav-link")];
+    search.addEventListener("input", () => {
+      const query = search.value.toLowerCase().trim();
+      links.forEach(link => {
+        link.classList.toggle("hidden", !link.textContent.toLowerCase().includes(query));
+      });
+    });
+
+    const sidebar = document.getElementById("sidebar");
+    document.getElementById("menuButton").addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+    });
+    links.forEach(link => link.addEventListener("click", () => {
+      links.forEach(item => item.classList.remove("active"));
+      link.classList.add("active");
+      sidebar.classList.remove("open");
+    }));
+  </script>
+</body>
+</html>

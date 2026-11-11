@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="VoiceMW — Speech tools for everyone.">
+  <title>VoiceMW | Speech Workspace</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="VoiceMW home">
+        <span class="brand-mark">V</span>
+        <span>Voice<span class="brand-accent">MW</span></span>
+      </a>
+      <div class="topbar-right">
+        <span class="connection-indicator">
+          <span class="status-dot"></span>
+          Secure workspace
+        </span>
+        <span id="header-user" class="header-user hidden"></span>
+        <button id="logout-button" class="button button-ghost hidden" type="button">
+          Sign out
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+
+      <!-- LOGIN -->
+      <section id="login-view" class="login-layout">
+        <div class="login-intro">
+          <div class="eyebrow">YOUR VOICE. YOUR WORKSPACE.</div>
+          <h1>Turn words into <span class="gradient-text">voice.</span></h1>
+          <p>
+            A simple workspace for creating speech, transcribing audio,
+            and managing your voice services.
+          </p>
+          <div class="feature-points">
+            <div><span class="feature-icon">01</span> Natural text-to-speech</div>
+            <div><span class="feature-icon">02</span> Audio transcription</div>
+            <div><span class="feature-icon">03</span> One workspace, one account</div>
+          </div>
+        </div>
+
+        <div class="panel login-panel">
+          <div class="panel-heading">
+            <div class="eyebrow">WELCOME BACK</div>
+            <h2>Sign in to VoiceMW</h2>
+            <p>Use the credentials provided by your administrator.</p>
+          </div>
+
+          <div class="login-tabs" role="tablist" aria-label="Login type">
+            <button class="login-tab active" type="button"
+              data-login-type="customer" role="tab" aria-selected="true">
+              Customer
+            </button>
+            <button class="login-tab" type="button"
+              data-login-type="admin" role="tab" aria-selected="false">
+              Administrator
+            </button>
+          </div>
+
+          <form id="login-form">
+            <label for="login-email">Email address</label>
+            <input id="login-email" name="email" type="email"
+              autocomplete="username" placeholder="you@example.com" required>
+
+            <label for="login-password">Password</label>
+            <input id="login-password" name="password" type="password"
+              autocomplete="current-password" placeholder="Enter your password" required>
+
+            <div id="login-message" class="message hidden" role="alert"></div>
+
+            <button id="login-submit" class="button button-primary button-full"
+              type="submit">
+              Sign in <span aria-hidden="true">→</span>
+            </button>
+          </form>
+
+          <p class="login-footnote">
+            Need an account? Contact your VoiceMW administrator.
+          </p>
+        </div>
+      </section>
+
+      <!-- CUSTOMER PASSWORD CHANGE -->
+      <section id="password-view" class="narrow-view hidden">
+        <div class="page-heading">
+          <div class="eyebrow">ACCOUNT SECURITY</div>
+          <h1>Set your new password</h1>
+          <p>You must change your temporary password before using VoiceMW.</p>
+        </div>
+
+        <div class="panel">
+          <form id="password-form">
+            <label for="current-password">Current password</label>
+            <input id="current-password" type="password"
+              autocomplete="current-password" required>
+
+            <label for="new-password">New password</label>
+            <input id="new-password" type="password"
+              autocomplete="new-password" minlength="12" required>
+            <p class="field-hint">Use at least 12 characters.</p>
+
+            <label for="confirm-password">Confirm new password</label>
+            <input id="confirm-password" type="password"
+              autocomplete="new-password" minlength="12" required>
+
+            <div id="password-message" class="message hidden" role="alert"></div>
+            <button class="button button-primary button-full" type="submit">
+              Update password
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- CUSTOMER WORKSPACE -->
+      <section id="customer-view" class="workspace hidden">
+        <div class="page-heading page-heading-row">
+          <div>
+            <div class="eyebrow">CUSTOMER WORKSPACE</div>
+            <h1>Welcome, <span id="customer-name">Customer</span></h1>
+            <p>Everything you need to work with speech, in one place.</p>
+          </div>
+          <span id="customer-status" class="status-badge">Loading status</span>
+        </div>
+
+        <div id="customer-notice" class="notice hidden"></div>
+
+        <div class="usage-grid">
+          <article class="panel usage-card">
+            <div class="usage-label">TEXT-TO-SPEECH</div>
+            <div id="tts-remaining" class="usage-number">—</div>
+            <div class="usage-caption">Characters remaining</div>
+            <div class="progress-track"><div id="tts-progress" class="progress-fill"></div></div>
+            <div id="tts-usage-detail" class="usage-detail">Loading usage…</div>
+          </article>
+
+          <article class="panel usage-card">
+            <div class="usage-label">SPEECH-TO-TEXT</div>
+            <div id="stt-remaining" class="usage-number">—</div>
+            <div class="usage-caption">Audio time remaining</div>
+            <div class="progress-track"><div id="stt-progress" class="progress-fill"></div></div>
+            <div id="stt-usage-detail" class="usage-detail">Loading usage…</div>
+          </article>
+
+          <article class="panel usage-card subscription-card">
+            <div class="usage-label">SUBSCRIPTION</div>
+            <div id="subscription-status" class="usage-number usage-word">—</div>
+            <div class="usage-caption">Current subscription</div>
+            <div id="subscription-expiry" class="usage-detail">Loading details…</div>
+          </article>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">VOICE TOOLS</div>
+            <h2>Your workspace</h2>
+          </div>
+        </div>
+
+        <nav class="tool-tabs" aria-label="Voice tools">
+          <button class="tool-tab active" type="button" data-tool="tts">Text to speech</button>
+          <button class="tool-tab" type="button" data-tool="stt">Speech to text</button>
+          <button class="tool-tab" type="button" data-tool="combined">Combined workflow</button>
+        </nav>
+
+        <!-- TTS -->
+        <section id="tool-tts" class="panel tool-panel">
+          <div class="tool-heading">
+            <div class="tool-icon">Aa</div>
+            <div>
+              <h3>Text to speech</h3>
+              <p>Turn written text into downloadable audio.</p>
+            </div>
+          </div>
+
+          <form id="tts-form">
+            <label for="tts-text">Your text</label>
+            <textarea id="tts-text" maxlength="2000"
+              placeholder="Type or paste the text you want to convert into speech..."
+              required></textarea>
+            <div class="textarea-footer">
+              <span>Maximum 2,000 characters</span>
+              <span id="tts-char-count">0 / 2000</span>
+            </div>
+
+            <div class="form-grid">
+              <div>
+                <label for="tts-voice">Voice</label>
+                <select id="tts-voice" required>
+                  <option value="">Loading voices…</option>
+                </select>
+              </div>
+              <div>
+                <label for="tts-speed">Speaking speed</label>
+                <select id="tts-speed">
+                  <option value="0.75">Slow</option>
+                  <option value="0.9">Relaxed</option>
+                  <option value="1" selected>Normal</option>
+                  <option value="1.1">Slightly fast</option>
+                  <option value="1.25">Fast</option>
+                  <option value="1.5">Very fast</option>
+                </select>
+              </div>
+              <div>
+                <label for="tts-format">Audio format</label>
+                <select id="tts-format">
+                  <option value="mp3" selected>MP3</option>
+                  <option value="wav">WAV</option>
+                  <option value="ogg">OGG</option>
+                  <option value="flac">FLAC</option>
+                  <option value="aac">AAC</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="tts-message" class="message hidden" role="status"></div>
+            <button id="tts-submit" class="button button-primary" disabled type="submit">
+              Generate speech <span aria-hidden="true">→</span>
+            </button>
+          </form>
+
+          <div id="tts-result" class="result-panel hidden">
+            <div class="result-heading">
+              <strong>Your audio is ready</strong>
+              <a id="tts-download" class="button button-secondary" download="voicemw-audio.mp3">
+                Download audio
+              </a>
+            </div>
+            <audio id="tts-audio" controls></audio>
+          </div>
+        </section>
+
+        <!-- STT -->
+        <section id="tool-stt" class="panel tool-panel hidden">
+          <div class="tool-heading">
+            <div class="tool-icon">♫</div>
+            <div>
+              <h3>Speech to text</h3>
+              <p>Upload an audio recording and receive its transcript.</p>
+            </div>
+          </div>
+
+          <form id="stt-form">
+            <label for="stt-file">Audio file</label>
+            <input id="stt-file" type="file"
+              accept="audio/*,.wav,.mp3,.m4a,.ogg,.flac,.aac,.webm" required>
+            <p class="field-hint">Maximum upload size: 25 MB.</p>
+
+            <div class="form-grid">
+              <div>
+                <label for="stt-language">Language</label>
+                <input id="stt-language" type="text" value="auto"
+                  maxlength="32" placeholder="auto">
+                <p class="field-hint">Use auto for automatic detection.</p>
+              </div>
+              <div>
+                <label for="stt-task">Task</label>
+                <select id="stt-task">
+                  <option value="transcribe">Transcribe</option>
+                  <option value="translate">Translate</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="stt-message" class="message hidden" role="status"></div>
+            <button id="stt-submit" class="button button-primary" disabled type="submit">
+              Transcribe audio <span aria-hidden="true">→</span>
+            </button>
+          </form>
+
+          <div id="stt-result" class="result-panel hidden">
+            <div class="result-heading">
+              <strong>Transcription result</strong>
+              <span id="stt-result-meta" class="muted"></span>
+            </div>
+            <textarea id="stt-transcript" readonly
+              aria-label="Transcription result"></textarea>
+            <button id="stt-copy" class="button button-secondary" type="button">
+              Copy transcript
+            </button>
+          </div>
+        </section>
+
+        <!-- COMBINED -->
+        <section id="tool-combined" class="panel tool-panel hidden">
+          <div class="tool-heading">
+            <div class="tool-icon">⇄</div>
+            <div>
+              <h3>Combined workflow</h3>
+              <p>Transcribe audio, review the words, and turn them into speech.</p>
+            </div>
+          </div>
+
+          <form id="combined-stt-form">
+            <label for="combined-file">Audio file</label>
+            <input id="combined-file" type="file"
+              accept="audio/*,.wav,.mp3,.m4a,.ogg,.flac,.aac,.webm" required>
+
+            <div class="form-grid">
+              <div>
+                <label for="combined-language">Language</label>
+                <input id="combined-language" type="text" value="auto" maxlength="32">
+              </div>
+              <div>
+                <label for="combined-task">Task</label>
+                <select id="combined-task">
+                  <option value="transcribe">Transcribe</option>
+                  <option value="translate">Translate</option>
+                </select>
+              </div>
+            </div>
+
+            <label class="checkbox-row">
+              <input id="combined-auto" type="checkbox">
+              <span>Automatically generate speech after transcription</span>
+            </label>
+
+            <div id="combined-message" class="message hidden" role="status"></div>
+            <button id="combined-stt-submit" class="button button-primary" disabled type="submit">
+              Start transcription <span aria-hidden="true">→</span>
+            </button>
+          </form>
+
+          <div id="combined-editor" class="result-panel hidden">
+            <div class="result-heading">
+              <strong>Review your transcript</strong>
+              <span class="muted">You can edit this text before generating speech.</span>
+            </div>
+            <textarea id="combined-transcript"
+              placeholder="Your transcript will appear here..."></textarea>
+            <div class="textarea-footer">
+              <span>Maximum 2,000 characters for speech generation</span>
+              <span id="combined-char-count">0 / 2000</span>
+            </div>
+
+            <div class="form-grid">
+              <div>
+                <label for="combined-voice">Voice</label>
+                <select id="combined-voice"></select>
+              </div>
+              <div>
+                <label for="combined-speed">Speaking speed</label>
+                <select id="combined-speed">
+                  <option value="0.75">Slow</option>
+                  <option value="0.9">Relaxed</option>
+                  <option value="1" selected>Normal</option>
+                  <option value="1.1">Slightly fast</option>
+                  <option value="1.25">Fast</option>
+                  <option value="1.5">Very fast</option>
+                </select>
+              </div>
+              <div>
+                <label for="combined-format">Audio format</label>
+                <select id="combined-format">
+                  <option value="mp3" selected>MP3</option>
+                  <option value="wav">WAV</option>
+                  <option value="ogg">OGG</option>
+                  <option value="flac">FLAC</option>
+                  <option value="aac">AAC</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="combined-tts-message" class="message hidden" role="status"></div>
+            <button id="combined-tts-submit" class="button button-primary" disabled type="button">
+              Generate speech from transcript
+            </button>
+
+            <div id="combined-audio-result" class="audio-result hidden">
+              <audio id="combined-audio" controls></audio>
+              <a id="combined-download" class="button button-secondary"
+                download="voicemw-audio.mp3">Download audio</a>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <!-- ADMIN WORKSPACE -->
+      <section id="admin-view" class="workspace hidden">
+        <div class="page-heading page-heading-row">
+          <div>
+            <div class="eyebrow">ADMINISTRATION</div>
+            <h1>Customer management</h1>
+            <p>Manage VoiceMW accounts, subscriptions, and access.</p>
+          </div>
+          <span class="status-badge status-active">Administrator</span>
+        </div>
+
+        <div class="admin-toolbar">
+          <div class="search-field">
+            <input id="admin-search" type="search"
+              placeholder="Search by name, email, or account ID…">
+          </div>
+          <button id="admin-refresh" class="button button-secondary" type="button">
+            Refresh accounts
+          </button>
+        </div>
+
+        <div id="admin-message" class="message hidden" role="status"></div>
+
+        <div class="panel table-panel">
+          <div class="table-heading">
+            <h2>Customer accounts</h2>
+            <span id="admin-account-count" class="muted">Loading…</span>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Account ID</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="admin-accounts-body">
+                <tr><td colspan="6" class="table-empty">Loading accounts…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <section id="admin-detail" class="panel admin-detail hidden">
+          <div class="result-heading">
+            <div>
+              <div class="eyebrow">CUSTOMER DETAILS</div>
+              <h2 id="admin-detail-name">Customer</h2>
+              <p id="admin-detail-email" class="muted"></p>
+            </div>
+            <button id="admin-close-detail" class="button button-ghost" type="button">
+              Close
+            </button>
+          </div>
+
+          <div id="admin-detail-summary" class="detail-grid"></div>
+
+          <div class="admin-actions-grid">
+            <form id="admin-activate-form" class="admin-action-card">
+              <h3>Activate subscription</h3>
+              <label for="activate-duration">Duration type</label>
+              <select id="activate-duration">
+                <option value="days">Days</option>
+                <option value="months">Months</option>
+              </select>
+              <label for="activate-amount">Duration</label>
+              <input id="activate-amount" type="number" min="1" value="30" required>
+              <label for="activate-characters">TTS character allowance</label>
+              <input id="activate-characters" type="number" min="1" value="10000" required>
+              <label for="activate-stt">STT allowance (seconds)</label>
+              <input id="activate-stt" type="number" min="0" value="3600" required>
+              <button class="button button-primary button-full" type="submit">
+                Activate subscription
+              </button>
+            </form>
+
+            <form id="admin-extend-form" class="admin-action-card">
+              <h3>Extend subscription</h3>
+              <label for="extend-duration">Duration type</label>
+              <select id="extend-duration">
+                <option value="days">Days</option>
+                <option value="months">Months</option>
+              </select>
+              <label for="extend-amount">Additional duration</label>
+              <input id="extend-amount" type="number" min="1" value="30" required>
+              <label for="extend-characters">Additional TTS characters</label>
+              <input id="extend-characters" type="number" min="0" value="10000" required>
+              <label for="extend-stt">Additional STT seconds</label>
+              <input id="extend-stt" type="number" min="0" value="3600" required>
+              <button class="button button-primary button-full" type="submit">
+                Extend subscription
+              </button>
+            </form>
+
+            <div class="admin-action-card">
+              <h3>Account access</h3>
+              <p class="field-hint">Suspending an account blocks customer access. Unsuspending restores its active status.</p>
+              <button id="admin-suspend" class="button button-danger button-full" type="button">
+                Suspend account
+              </button>
+              <button id="admin-unsuspend" class="button button-secondary button-full" type="button">
+                Unsuspend account
+              </button>
+            </div>
+
+            <div class="admin-action-card">
+              <h3>API keys</h3>
+              <p class="field-hint">Rotating a key invalidates the existing active key. The new key is displayed only once.</p>
+              <button id="admin-rotate-key" class="button button-primary button-full" type="button">
+                Rotate API key
+              </button>
+              <button id="admin-revoke-keys" class="button button-danger button-full" type="button">
+                Revoke all API keys
+              </button>
+              <div id="admin-key-result" class="key-result hidden">
+                <label for="admin-new-key">New API key — copy it now</label>
+                <input id="admin-new-key" type="password" readonly>
+                <button id="admin-copy-key" class="button button-secondary button-full"
+                  type="button">Copy API key</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+    </main>
+
+    <footer class="app-footer">
+      <span>VoiceMW</span>
+      <span>Speech tools, made accessible.</span>
+    </footer>
+  </div>
+</body>
+</html>

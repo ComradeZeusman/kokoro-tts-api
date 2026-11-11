@@ -5,7 +5,7 @@
 //! splitting IPA output at word boundaries (approximation of `en_tokenize` without Misaki tokens).
 
 /// Maximum phoneme-string length (characters) per ONNX call, matching Python Kokoro pipelines.
-pub const MAX_PHONEME_CHARS: usize = 510;
+pub const MAX_PHONEME_CHARS: usize = 508;
 
 /// Resolved runtime flags for G2P (normally from environment variables).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

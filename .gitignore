@@ -1,14 +1,51 @@
-*.bin
-*.onnx
+# Rust build artifacts
 /target/
-.idea/
-.DS_Store
-.vscode/
+/target-ubuntu24-test/
+
+# Model weights and voice assets (download separately)
+*.onnx
+*.bin
+
+# Runtime databases and authentication data
+/data/
+/test-data/
+/test-admin-auth/
+*.db
+*.db-shm
+*.db-wal
+admin-auth.txt
+
+# Environment files and credentials
 .env
 .env.*
 !.env.example
+*.pem
+*.p12
+*.pfx
+*.key
+
+# Audio generated during development
 *.wav
 *.mp3
 *.ogg
 *.flac
 *.aac
+
+# Node.js and frontend build artifacts
+node_modules/
+web/node_modules/
+web/dist/
+web/coverage/
+
+# Logs, backups and temporary files
+*.log
+*.backup
+*.backup-*
+*.tmp
+/src/bin/kokoro-api.rs.backup
+
+# IDE and operating system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

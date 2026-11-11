@@ -37,16 +37,12 @@ fn save_wav(path: &str, samples: &[f32]) -> Result<(), Box<dyn Error>> {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let runtime = tokio::runtime::Builder::new_multi_thread()
-        .build()?;
+    let runtime = tokio::runtime::Builder::new_multi_thread().build()?;
 
     runtime.block_on(async {
         println!("Loading Kokoro model...");
 
-        let tts = KokoroTts::new(
-            "models/model_quantized.onnx",
-            "voices"
-        ).await?;
+        let tts = KokoroTts::new("models/model_quantized.onnx", "voices").await?;
 
         println!("Model loaded!");
 
@@ -54,9 +50,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
         println!("Generating speech...");
 
-        let (audio, duration) = tts
-            .synth(text, Voice::new("af_heart"))
-            .await?;
+        let (audio, duration) = tts.synth(text, Voice::new("af_heart")).await?;
 
         println!("Synthesis took: {:?}", duration);
         println!("Generated {} samples", audio.len());

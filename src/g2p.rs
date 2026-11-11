@@ -996,12 +996,12 @@ mod tests {
             "should not letter-spell L'Actrice: {p:?}"
         );
         assert!(
-            p.contains("kˈɜː") && p.contains("mˈɜː"),
-            "Curmer should recover Cur-mer-style phones: {p:?}"
+            p.contains("kˈɜmɚ"),
+            "Curmer should have a word-level pronunciation, not letter spelling: {p:?}"
         );
         assert!(
-            p.contains("ˈækt ɹˈaɪs") || p.contains("ˌɛl ˈækt"),
-            "L'Actrice should use el + Act-rice heuristic: {p:?}"
+            p.contains("ˈɛlˈæktɹɪs"),
+            "L'Actrice should have a word-level el + Actrice pronunciation: {p:?}"
         );
         Ok(())
     }

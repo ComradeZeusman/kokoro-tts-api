@@ -7,6 +7,7 @@ keywords = ["TTS", "Offline", "Lite", "AI", "Synthesizer"]
 license = "Apache-2.0"
 repository = "https://github.com/ComradeZeusman/kokoro-tts-api.git"
 readme = "README.md"
+autobins = false
 
 [features]
 # Default: Misaki + bundled espeak-rs OOV (kokoro-js–like arbitrary spellings). Slim: cargo build --no-default-features [--features misaki-lean]
@@ -29,8 +30,21 @@ pin-project = "1.1.10"
 regex = "1.12.2"
 tokio = { version = "1.49.0", features = ["fs", "rt-multi-thread", "time", "sync", "macros", "net", "signal", "process", "io-util"] }
 
-axum = { version = "0.8", features = ["json"] }
+axum = { version = "0.8", features = ["json", "multipart"] }
 serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.41.1", features = ["bundled"] }
+sha2 = "0.11.1"
+rand = "0.10.3"
+hex = "0.4.3"
+chrono = { version = "0.4.45", features = ["clock", "serde"] }
+clap = { version = "4.6.7", features = ["derive"] }
+dirs = "7.0.0"
+anyhow = "1.0.100"
+reqwest = { version = "0.13.5", default-features = false, features = ["json", "rustls", "multipart"] }
+argon2 = "0.5.3"
+rand_core = { version = "0.6.4", features = ["getrandom"] }
+rpassword = "7.4.0"
 
 [dev-dependencies]
 anyhow = "1.0.100"
@@ -39,3 +53,20 @@ voxudio = { version = "0.5.7",features = ["device"] }
 
 [build-dependencies]
 cc = "1.2.53"
+
+
+[[bin]]
+name = "kokoro-admin"
+path = "src/bin/kokoro-admin.rs"
+
+[[bin]]
+name = "kokoro-api"
+path = "src/bin/kokoro-api.rs"
+
+[[bin]]
+name = "kokoro-g2p-audit"
+path = "src/bin/kokoro-g2p-audit.rs"
+
+[[bin]]
+name = "kokoro-wav"
+path = "src/bin/kokoro-wav.rs"
